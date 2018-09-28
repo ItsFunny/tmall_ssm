@@ -1,0 +1,8 @@
+com\tmall\search\service\SearchService.class
+com\tmall\search\controller\SearchController.class
+com\tmall\search\service\impl\ProductServiceImpl.class
+com\tmall\search\dao\SearchDao.class
+com\tmall\search\service\ProductService.class
+com\tmall\search\service\impl\SearchServiceImpl.class
+com\tmall\search\config\Config.class
+com\tmall\search\dao\impl\SearchDaoImpl.class

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.PropertyDao">
+	<select id="findAllPropertiesByProductId" parameterType="java.lang.String"
+		resultType="com.tmall.dto.PropertyDTO">
+		select
+		a.property_id,a.product_category_id,a.property_name,b.product_value_id,b.property_value
+		from property a,property_value b where a.property_id=b.property_id and
+		b.product_id=#{productId};
+	</select>
+
+	<select id="findAllPropertiesInPropertyValusIds" parameterType="java.lang.Integer"
+		resultType="com.tmall.model.Property">
+		select * from property where property_id in
+		<foreach collection="list" item="propertyId" index="index"
+			open="(" separator="," close=")">#{propertyId}</foreach>
+	</select>
+	<select id="findProductProperties" parameterType="java.lang.String"
+		resultType="com.tmall.dto.PropertyDTO">
+		select
+		a.product_value_id,a.product_id,a.property_id,a.property_value,b.property_id,b.property_name
+		from property_value a,property b where a.property_id=b.property_id and
+		a.product_id=#{productId};
+	</select>
+</mapper>
+
+
+

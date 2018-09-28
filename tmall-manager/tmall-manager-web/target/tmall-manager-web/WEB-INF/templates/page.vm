@@ -1,0 +1,25 @@
+
+	<div class="pageDiv">
+
+<nav>  
+  <ul class="pagination">
+ 		 #if(${pageDTO.pageNum} == 1)
+  			<li><a href="javascript:void(0)">首页</a></li>
+  			<li><a href="javascript:void(0)">上一页</a></li>
+  		#else
+  			<li><a href="?pageNum=1&storeId=${storeId}">首页</a></li>
+  			#set($a=${pageDTO.pageNum} - 1)
+  			<li><a href="?pageNum=${a}&storeId=${storeId}">上一页</a></li>
+  		#end
+  		#if(${pageDTO.pageNum} < ${pageDTO.maxPage})
+  			#set($a=${pageDTO.pageNum} + 1)
+  			<li><a href="?pageNum=${a}&storeId=${storeId}">下一页</a></li>
+  			<li><a href="?pageNum=${pageDTO.maxPage}&storeId=${storeId}">最后一页</a></li>
+  		#else
+  			<li><a href="javascript:void(0)">下一页</a></li>
+  			<li><a href="javascript:void(0)">最后一页</a></li>
+  		#end
+  </ul>
+</nav>
+当前:${pageDTO.pageNum}/${pageDTO.maxPage}
+	</div>

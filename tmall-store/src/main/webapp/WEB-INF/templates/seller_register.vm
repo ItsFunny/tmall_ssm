@@ -1,0 +1,26 @@
+#parse("header.vm")
+
+
+  	<form action="/seller/do-register" method="post" enctype="multipart/form-data">
+         <input type="text" name="storeName" placeholder="请输入店铺的名称">
+         <input type="password" name="password" placeholder="请输入登陆店铺的密码">
+         <input type="text" name="realName" placeholder="请输入您的真实姓名">
+         	店铺图片
+         <input type="text" name="idCard" placeholder="请输入您的身份证号">
+         <input type="file" name="picture">
+         <input type="submit" value="提交">
+         <input type="hidden" name="openId" value="${openid}">
+         <input type="hidden" name="redirect" value="${redirect}">
+    </form>
+
+	#if( $error )
+    <script>
+      	alert("${error}");
+      	###if($redirect)
+      ##	 window.location.href="${redirect}"
+      ##	#end
+    </script>
+  	#end
+</body>
+
+</html>

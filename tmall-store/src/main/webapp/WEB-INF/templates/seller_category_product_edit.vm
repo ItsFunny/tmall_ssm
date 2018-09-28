@@ -1,0 +1,137 @@
+#parse("header.vm")
+<script>
+function checkEmpty(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	return true;
+}
+function checkNumber(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	if(isNaN(value)){
+		alert(name+ "必须是数字");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	
+	return true;
+}
+function checkInt(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	if(parseInt(value)!=value){
+		alert(name+ "必须是整数");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	
+	return true;
+}
+
+
+$(function(){
+	$("a").click(function(){
+		var deleteLink = $(this).attr("deleteLink");
+		console.log(deleteLink);
+		if("true"==deleteLink){
+			var confirmDelete = confirm("确认要删除");
+			if(confirmDelete)
+				return true;
+			return false;
+			
+		}
+	});
+})
+</script>	
+</head>
+<body>
+
+
+
+
+#parse("TopMenu.vm")
+
+<title>编辑产品</title>
+
+<script>
+$(function() {
+	$("#editForm").submit(function() {
+		if (!checkEmpty("name", "产品名称"))
+			return false;
+//			if (!checkEmpty("subTitle", "小标题"))
+//				return false;
+		if (!checkNumber("orignalPrice", "原价格"))
+			return false;
+		if (!checkNumber("promotePrice", "优惠价格"))
+			return false;
+		if (!checkInt("stock", "库存"))
+			return false;
+		return true;
+	});
+});
+</script>
+
+<div class="workingArea">
+	<ol class="breadcrumb">
+	  <li><a href="/manager/category/all">所有分类</a></li>
+	  <li><a href="/manager/category/porduct/${categoryType}&categoryName=${categoryName}">${categoryName}</a></li>
+	  <li class="active">${productName}</li>
+	  <li class="active">编辑产品</li>
+	</ol>
+	
+	<div class="panel panel-warning editDiv">
+		<div class="panel-heading">编辑产品</div>
+		<div class="panel-body">
+			<form method="post" id="editForm" action="/seller/category-product-do-edit" >
+				<table class="editTable">
+					<tr>
+						<td>产品名称</td>
+						<td><input id="name" name="productName" value="${product.productName}"
+							type="text" class="form-control"></td>
+					</tr>
+					<tr>
+						<td>产品小标题</td>
+						<td><input id="subTitle" name="productSubTitle" type="text"
+						value="${product.productSubTitle}"
+							class="form-control"></td>
+					</tr>
+					<tr>
+						<td>原价格</td>
+						<td><input id="orignalPrice" value="${product.productPrice}" name="productPrice" type="text"
+							class="form-control"></td>
+					</tr>
+					<tr>
+						<td>优惠价格</td>
+						<td><input id="promotePrice"  value="${product.productPromotePrice}" name="productPromotePrice" type="text"
+							class="form-control"></td>
+					</tr>
+					<tr>
+						<td>库存</td>
+						<td><input id="stock"  value="${product.productStock}" name="productStock" type="text"
+							class="form-control"></td>
+					</tr>
+					<tr class="submitTR">
+						<td colspan="2" align="center">
+						<input type="hidden" name="productId" value="${product.productId}">
+						<input type="hidden" name="redirect" value="${redirect}">
+						<input type="hidden" name="categoryType" value="${product.categoryType}">
+						##<input type="hidden" name="" value="83">
+						<button type="submit" class="btn btn-success">提 交</button></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</div>
+</div>

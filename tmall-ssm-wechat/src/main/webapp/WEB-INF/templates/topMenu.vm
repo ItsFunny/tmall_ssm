@@ -1,0 +1,24 @@
+<nav class="top ">
+		<a href="/index.html">
+			<span style="color:#C40000;margin:0px" class=" glyphicon glyphicon glyphicon-home redColor"></span>
+			天猫首页
+		</a>	
+		#if ($user.name)
+		<span>喵，欢迎${user.name}来到天猫</span>
+		<a href="/logout">退出</a>
+		
+		#else
+		
+			<a href="http://localhost:8095/wechat/login">请登录</a>
+			<a href="http://localhost:8095/wechat/register">免费注册</a>		
+		#end
+		<span class="pull-right">
+			
+			<a href="/user/order/all.html">我的订单</a>
+			<a href="/user/cart/view.html">
+			<a href="/log-out.html">退出登陆</a>
+			<span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-shopping-cart redColor"></span>
+			购物车<strong>0</strong>件</a>		
+		</span>
+		
+</nav>

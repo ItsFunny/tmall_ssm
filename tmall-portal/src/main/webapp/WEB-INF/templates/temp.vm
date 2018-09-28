@@ -1,0 +1,12 @@
+<html>
+
+    <script>
+    	#if( $error )
+	      	alert("${error}");
+	      	#if($redirect)
+	      	 window.location.href="${redirect}"
+	      	#end
+      	#end
+    </script>
+  
+  </html>

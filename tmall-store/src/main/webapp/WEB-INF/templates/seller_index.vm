@@ -1,0 +1,16 @@
+#parse("header.vm")
+#parse("TopMenu.vm")
+
+
+###if(${sellerDTO.level}==0)总经理#elseif(${sellerDTO.level}==1)#end
+,欢迎来到店铺后台管理系统
+店铺总访问人数:
+
+#if(${count})
+	${count}
+#else
+	尚未有用户访问该店铺下的商品
+#end
+
+</body>
+</html>

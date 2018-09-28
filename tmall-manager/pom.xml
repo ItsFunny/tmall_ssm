@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.tmall</groupId>
+		<artifactId>tmall-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>tmall-manager</artifactId>
+	<packaging>pom</packaging>
+	<modules>
+		<module>tmall-manager-model</module>
+		<module>tmall-manager-dao</module>
+		<module>tmall-manager-service</module>
+		<module>tmall-manager-web</module>
+    
+  </modules>
+
+	<build>
+		<!-- 配置插件 -->
+		<plugins>
+			<!-- 配置Tomcat插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<configuration>
+					<port>8090</port>
+					<path>/</path>
+					<!-- 在linux环境下通过命令行的方式热部署 -->
+					<!-- <url>http://59.110.239.161:80/manager/text</url> <username>joker</username> 
+						<password>123456</password> -->
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

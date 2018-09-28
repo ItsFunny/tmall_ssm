@@ -1,0 +1,24 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/rebuild_tmall?characterEncoding=utf-8&autoReconnect=true&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123
+
+server:
+  port: 8095
+  
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+    
+    
+wechat: 
+  mpAppId: wx4573a9e9e4e7f8cf
+  mpAppSecret: 412a365b2734af961ec492aeb7b857af
+  
+  
+  
+    

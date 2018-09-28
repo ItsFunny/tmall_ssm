@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.UserDao">	
+	<select id="findUsersInUserIDs" parameterType="java.lang.String" resultType="com.tmall.dto.UserDTO">
+		select * from user where user_id in 
+		<foreach collection="list" item="userId" index="index" open="(" separator="," close=")">#{userId}</foreach>
+	</select>
+	
+	<select id="findUsersInNicknames" parameterType="java.lang.String" resultType="com.tmall.dto.UserDTO">
+		select * from user where nickname in 
+			<foreach collection="list" item="nickname" index="index" open="(" separator="," close=")">#{nickname}</foreach>
+	</select>
+</mapper>
+
+
+

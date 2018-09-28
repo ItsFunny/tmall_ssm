@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.CategoryPictureDao">
+	<select id="updateCategoryPicture" parameterType="java.lang.String">
+		update category_picture
+		<set>
+			<if test="categoryPicturePath!=null">category_picture_path=#{categoryPicturePath}</if>
+		</set>
+		<where>category_type=#{categoryType}</where>
+	</select>
+</mapper>
+
+
+

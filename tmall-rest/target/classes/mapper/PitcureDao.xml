@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.PictureDao">
+	<select id="findProductSinglePicturesByProductIds">
+		select * from picture where pitcure_type=0 and product_id in
+		<foreach collection="list" item="productId" index="index"
+			open="(" separator="," close=")">#{productId}</foreach>
+	</select>
+	<select id="findProductsAllPictures" resultType="com.tmall.model.Picture"
+		parameterType="java.lang.String">
+		select * from picture where product_id in
+		<foreach collection="list" item="productId" index="index"
+			open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</select>
+	<select id="findPicturesByPictureIdList" parameterType="java.lang.String"
+		resultType="com.tmall.model.Picture">
+		select * from picture where picture_id in
+		<foreach collection="list" index="index" item="pictureId"
+			open="(" separator="," close=")">#{pictureId}</foreach>
+
+	</select>
+</mapper>
+
+
+

@@ -1,0 +1,50 @@
+#parse("header.vm")
+<head>
+	<title></title>
+</head>
+
+##	//window.clearInterval(c);
+##//c=setInterval(checkScan,5000);
+#[[<script>
+$(function() {
+
+	var sessionId=$("#sessionId").val();
+	alert(sessionId);
+	var redirect=$("#redirect").val();
+	var checkScanUrl=$("#checkScanUrl").val();
+	var registerUrl=$("#registerUrl").val();
+	var type=$("#type").val();
+	c=setInterval(checkScan,5000);
+	function checkScan() { 
+	$.get("/wechat/check-scan?sessionId="+sessionId+"&type="+type,function(data,status){
+		
+			var object=$.parseJSON(data); 
+			if(object.code==200){
+				alert("扫码成功");
+				alert(redirect);
+				window.clearInterval(c);
+				window.location=redirect;
+			}
+			else if(object.code==10){
+				//跳转到注册页面
+				alert(object.msg);
+				window.location=registerUrl+"?openid="+object.data;
+			}else if(object.code==2){
+				alert("进入排队队列");
+				window.location="/wechat/wait-login?sessionId="+object.data+"&index="+object.msg
+			}
+		});
+    }
+})
+</script>]]# 
+<body>
+		<img style="margin-left:10px;margin-right:0px"  src="${path}" >
+		<input type="hidden" name="sessionId" value="${sessionId}" id="sessionId">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect">
+		<input type="hidden" name="checkScanUrl" value="${checkScanUrl}" id="checkScanUrl">
+		<input type="hidden" name="registerUrl" value="${registerUrl}" id="registerUrl">
+		<input type="hidden" name="type" value="${type}" id="type">
+</body>
+
+
+</html>

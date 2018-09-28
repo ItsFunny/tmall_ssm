@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.ProductInfoDao">
+	<select id="update" parameterType="com.tmall.model.ProductInfo">
+		update product_info
+		<set>
+			<if test="productName!=null">product_name=#{productName},</if>
+			<if test="productSubTitle!=null">product_sub_title=#{productSubTitle},</if>
+			<if test="productPrice!=null">product_price=#{productPrice},</if>
+			<if test="productPromotePrice!=null">product_promote_price=#{productPromotePrice},</if>
+			<if test="productIntegral!=null">product_integral=#{productIntegral},</if>
+			<if test="productStock!=null">product_stock=#{productStock},</if>
+			<if test="productReviewsCount!=null">product_reviews_count=#{productReviewsCount},</if>
+			<if test="productTotalSelled!=null">product_total_selled=#{productTotalSelled},</if>
+			<if test="pictureId">picture_id=#{pictureId},</if>
+			<if test="productStatus!=null">product_status=#{productStatus},</if>
+			<if test="categoryType!=null">category_type=#{categoryType}</if>
+		</set>
+		<where>
+			product_id=#{productId}
+		</where>
+	</select>
+	<insert id="addProductInfo" parameterType="com.tmall.model.ProductInfo">
+		insert into product_info
+		(
+		product_id,product_name,product_sub_title,product_price,product_promote_price,product_stock,
+		<if test="productIntegral!=null">product_integral,</if>
+		<if test="productReviewsCount!=null">product_reviews_count,</if>
+		<if test="productTotalSelled!=null">product_total_selled,</if>
+		<if test="pictureId!=null">picture_id,</if>
+		<if test="productDescription!=null">product_description,</if>
+		product_status,
+		store_id,
+		category_type
+		)
+		values
+		(#{productId},#{productName},#{productSubTitle},#{productPrice},#{productPromotePrice},#{productStock},
+		<if test="productIntegral!=null">#{productIntegral},</if>
+		<if test="productReviewsCount!=null">#{productReviewsCount},</if>
+		<if test="productTotalSelled!=null">#{productTotalSelled},</if>
+		<if test="pictureId!=null">#{pictureId},</if>
+		<if test="productDescription!=null">#{productDescription},</if>
+		#{productStatus},
+		#{storeId},
+		#{categoryType}
+		)
+	</insert>
+	<select id="findAllProductsByCategoryTypeW" parameterType="java.lang.Integer"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.product_id,a.product_name,a.store_id,a.product_sub_title,a.product_description,a.product_price,a.product_total_selled,a.picture_id,a.product_promote_price,a.product_stock,b.picture_id,b.picture_path
+		as productPicturePath,c.category_id,c.category_name,c.category_type
+		from product_info a,picture b ,product_category c
+		where
+		a.picture_id=b.picture_id and a.category_type=#{categoryType} and
+		c.category_type=#{categoryType}
+	</select>
+
+	<select id="findOne" parameterType="java.lang.String" resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.product_id,a.category_type,a.product_name,a.product_sub_title,a.product_price,a.product_promote_price,a.product_integral,a.product_stock,a.product_description,a.store_id,a.picture_id,b.picture_path
+		from product_info a,picture b where a.picture_id=b.picture_id and
+		a.product_id=#{productId};
+	</select>
+	
+	<update id="updateProductStatusByProductList" parameterType="map">
+		update product_info set product_status=#{productStatus}
+		where
+		product_id in 
+		<foreach collection="productIdList" index="index" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+</mapper>
+
+
+

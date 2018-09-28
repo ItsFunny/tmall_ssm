@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tmall.dao.OrderDetailDao">
+
+	<select id="findUserAllOrderDetailsByStatusInIds" parameterType="java.util.Map"
+		resultType="com.tmall.vo.OrderDetailVO">
+		select * from order_detail where order_status=#{orderStatus}
+		and
+		order_id in
+		<foreach collection="list" item="orderId" index="index" open="("
+			separator="," close=")">#{orderId}</foreach>
+	</select>
+
+	<update id="updateOrderDetail" parameterType="com.tmall.vo.OrderDetailVO">
+		update order_detail
+		<set>
+			<if test="receiptDate!=null">receipt_date=#{receiptDate},</if>
+			<if test="payStatus!=null">pay_status=#{payStatus},</if>
+			<if test="deliverDate!=null">deliver_date=#{deliverDate},</if>
+			<if test="orderStatus!=null">order_status=#{orderStatus}</if>
+		</set>
+		<where>
+			<if test="orderDetailId!=null">order_detail_id=#{orderDetailId} </if>
+		</where>
+	</update>
+</mapper>
+
+
+

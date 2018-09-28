@@ -1,0 +1,378 @@
+#parse("header.vm")
+##parse("/css/tmall.css")
+##<link href="/css/tmall.css" rel="stylesheet">
+</head>
+<script>
+function formatMoney(num){
+	num = num.toString().replace(/\$|\,/g,'');  
+	if(isNaN(num))  
+	    num = "0";  
+	sign = (num == (num = Math.abs(num)));  
+	num = Math.floor(num*100+0.50000000001);  
+	cents = num%100;  
+	num = Math.floor(num/100).toString();  
+	if(cents<10)  
+	cents = "0" + cents;  
+	for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)  
+	num = num.substring(0,num.length-(4*i+3))+','+  
+	num.substring(num.length-(4*i+3));  
+	return (((sign)?'':'-') + num + '.' + cents);  
+}
+function checkEmpty(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		
+		$("#"+id)[0].focus();
+		return false;
+	}
+	return true;
+}
+
+$(function(){
+	$("a.productDetailTopReviewLink").click(function(){
+		$("div.productReviewDiv").show();
+		$("div.productDetailDiv").hide();
+	});
+	$("a.productReviewTopPartSelectedLink").click(function(){
+		$("div.productReviewDiv").hide();
+		$("div.productDetailDiv").show();		
+	});
+	
+	$("span.leaveMessageTextareaSpan").hide();
+	$("img.leaveMessageImg").click(function(){
+		
+		$(this).hide();
+		$("span.leaveMessageTextareaSpan").show();
+		$("div.orderItemSumDiv").css("height","100px");
+	});
+	
+	$("div#footer a[href$=#nowhere]").click(function(){
+		alert("模仿天猫的连接，并没有跳转到实际的页面");
+	});
+	
+
+	$("a.wangwanglink").click(function(){
+		alert("模仿旺旺的图标，并不会打开旺旺");
+	});
+	$("a.notImplementLink").click(function(){
+		alert("这个功能没做，蛤蛤~");
+	});
+
+});
+
+
+</script>
+<body>
+#parse("topMenu.vm")
+
+	<a href="#nowhere">
+		<img id="logo" src="http://how2j.cn/tmall/img/site/logo.gif" class="logo">
+	</a>
+	
+	<form  method="post" >	
+		<div class="searchDiv">
+			<input name="keyword" type="text" placeholder="时尚男鞋  太阳镜 " class="searchQ">
+			<button  type="button" class="searchButton">搜索</button>
+			<div class="searchBelow">
+					#foreach($item in ${resultVO.data})
+						#if($velocityCount==4)
+							#break
+						#end
+						<span>
+						<a href="/category/detail/${item.categoryType}.html">
+								${item.categoryName}
+							</a>
+						<span>|</span>				
+						</span>			
+					#end	
+			</div>
+		</div>
+	</form>	
+	<span class="searchQ">
+		在线用户:总计
+		#if(${totalCount})
+		${totalCount}人在线
+		#else
+		0人在线
+		#end
+		#if(${maxCount})
+		-最高记录是${maxCount}于<strong>${dateOfMaxCount}</strong>
+		#end
+	</span>
+
+<title>模仿天猫官网</title>
+
+<div class="homepageDiv">
+	
+<script>
+$(function(){
+
+	$(".searchButton").click(function(){
+		var q=$(".searchQ").val();
+		window.location.href="/search.html?q="+q;
+	});
+
+	$("div.eachCategory").mouseenter(function(){
+		var cid = $(this).attr("cid");
+		$("div.productAsideCategorys[cid="+cid+"]").show();
+	});
+	$("div.eachCategory").mouseleave(function(){
+		var cid = $(this).attr("cid");
+		$("div.productAsideCategorys[cid="+cid+"]").hide();		
+		
+	});
+	
+	$("div.productAsideCategorys").mouseenter(function(){
+		$(this).show();
+	});
+	
+	$("div.productAsideCategorys").mouseleave(function(){
+		$(this).hide();
+	});
+	
+	$("div.rightMenu span").mouseenter(function(){
+		var left = $(this).position().left;
+		var top = $(this).position().top;
+		var width = $(this).css("width");
+		var destLeft = parseInt(left) + parseInt(width)/2;
+		$("img#catear").css("left",destLeft);
+		$("img#catear").css("top",top-20);
+		$("img#catear").fadeIn(500);
+				
+	});
+	$("div.rightMenu span").mouseleave(function(){
+		$("img#catear").hide();
+	});
+	
+	var left = $("div#carousel-of-product").offset().left;
+	$("div.categoryMenu").css("left",left-20);
+	$("div.categoryWithCarousel div.head").css("margin-left",left);
+	$("div.productAsideCategorys").css("left",left-20);
+	
+});
+</script>
+<script>
+$(function(){
+	$("div.productAsideCategorys div.row a").each(function(){
+		var v = Math.round(Math.random() *6);
+		if(v == 1)
+			$(this).css("color","#87CEFA");
+	});
+});
+</script>
+
+<img src="http://how2j.cn/tmall/img/site/catear.png" id="catear" class="catear"/>
+	
+<div class="categoryWithCarousel">
+
+<div class="headbar show1">
+	<div class="head ">
+	
+		<span style="margin-left:10px" class="glyphicon glyphicon-th-list"></span>
+		<span style="margin-left:10px" >商品分类</span>
+		
+	</div>
+	
+	<div class="rightMenu">
+		<span><a href="#nowhere"><img src="http://how2j.cn/tmall/img/site/chaoshi.png"/></a></span>
+		<span><a href="#nowhere"><img src="http://how2j.cn/tmall/img/site/guoji.png"/></a></span>
+	
+	##这里后台可以设置
+		#foreach($item in ${resultVO.data})
+			#if($velocityCount==6)
+				#break
+			#end
+			<span>
+					<a href="/category/detail/${item.categoryType}.html">
+						${item.categoryName}
+			</a></span>			
+		#end
+	</div>
+	
+</div>
+
+<div style="position: relative">
+##<input class="categoryMenu" type="button" id="test" value="测试">
+	<div class="categoryMenu">	
+			#foreach($item in ${resultVO.data})
+				<div cid=${item.categoryType}  class="eachCategory">
+					<span class="glyphicon glyphicon-link"></span>
+					<a href="/category/detail/${item.categoryType}.html">
+						${item.categoryName}
+					</a>
+				</div>
+			#end
+	</div>  
+</div>
+
+
+<div style="position: relative;left: 0;top: 0;">
+	<script>
+	$(function(){
+		$("div.productsAsideCategorys div.row a").each(function(){
+			var v = Math.round(Math.random() *6);
+			if(v == 1)
+				$(this).css("color","#87CEFA");
+		});
+	});
+	</script>
+	#foreach ($item in ${resultVO.data})
+	<div cid=${item.categoryType}  class="productAsideCategorys" style="left: -20px; display: none;">
+			<div class="row show1">		
+					#set($a = 0)
+					#foreach ($product in ${item.productInfoList})
+						#if( ${item.categoryType}==${product.categoryType})	
+						<a href="/product/detail/${product.productId}?categoryType=${item.categoryType}">
+									${product.productName}						
+								#set($a=${a}+1)
+									#if(${a} == 6)
+										#set(${a}=0)
+										#break
+									#end
+						</a>
+						#end		
+					#end	
+				<div class="seperator"></div>		
+			</div>				
+	</div>		
+	#end				
+</div>
+
+<div id="carousel-of-product"  class="carousel-of-product carousel slide1" data-ride="carousel">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#carousel-of-product" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel-of-product" data-slide-to="1"></li>
+    <li data-target="#carousel-of-product" data-slide-to="2"></li>
+    <li data-target="#carousel-of-product" data-slide-to="3"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img class="carousel carouselImage" src="http://how2j.cn/tmall/img/lunbo/1.jpg" >
+    </div>
+    <div class="item">
+      <img  class="carouselImage" src="http://how2j.cn/tmall/img/lunbo/2.jpg" >
+    </div>
+    <div class="item">
+		<img  class="carouselImage" src="http://how2j.cn/tmall/img/lunbo/3.jpg" >
+    </div>
+
+    <div class="item">
+        <img  class="carouselImage" src="http://how2j.cn/tmall/img/lunbo/4.jpg" >
+    </div>
+
+  </div>
+
+  <!-- Controls -->
+<!--   <a class="left carousel-control" href="#carousel-of-product" role="button" data-slide="prev"> -->
+<!--     <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> -->
+
+<!--   </a> -->
+<!--   <a class="right carousel-control" href="#carousel-of-product" role="button" data-slide="next"> -->
+<!--     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> -->
+
+<!--   </a> -->
+
+</div>	
+
+<div class="carouselBackgroundDiv">
+</div>
+
+</div>
+
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<div class="homepageCategoryproduct">
+			<div class="eachHomepageCategoryproduct">
+				<span class="categoryTitle">店铺信息</span>
+				<div style="clear:both"></div>
+				
+				#foreach($store in $storeDTOList)
+					<div class="productItem" >
+						
+							<a href="/store/${store.storeId}.html">
+							<img width="80px" src="${store.picturePath}"></a>
+							<a class="productItemDescLink" href="#nowhere">
+								<span class="productItemDesc">
+								${store.storeName}
+								</span>
+						    </a>
+							##<span class="productPrice">
+							##		促销价:1	
+							##</span>
+					</div>
+						#end
+				<div style="clear:both"></div>
+			</div>
+	</div>
+<div class="homepageCategoryproduct">
+			#foreach ($item in ${resultVO.data})
+			#set($a=0)
+			<div class="eachHomepageCategoryproduct">
+				<div class="left-mark"></div>
+				<span class="categoryTitle">${item.categoryName}</span>
+				<div style="clear:both"></div>
+						#foreach ($product in ${item.productInfoList})
+							#if( ${item.categoryType}==${product.categoryType})	
+							#set($a=${a}+1)
+						<div class="productItem" >
+							<a href="/product/detail/${product.productId}.html?categoryType=${item.categoryType}">
+							##<img width="100px" src="https://gw.alicdn.com/bao/uploaded/i1/2823354534/TB1K6SYfv6H8KJjy0FjXXaXepXa_!!0-item_pic.jpg"></a>
+							<img width="100px" src="${product.productPicturePath}"></a>
+							###foreach($picture in ${product.productPictures.topPicture})
+							##<img width="100px" src="${picture.picturePath}"></a>
+							###end
+							<a class="productItemDescLink" href="#nowhere">
+								<span class="productItemDesc">[热销]
+								${product.productName}
+								</span>
+						    </a>
+							<span class="productPrice">
+								#if(${product.productPromotePrice})
+									促销价:${product.productPromotePrice}	
+								#else
+									${product.productPrice}
+								#end
+							</span>
+							#if($a==5)
+								#set($a=0)
+								#break
+							#end
+						</div>
+						#end
+					#end
+									
+				<div style="clear:both"></div>
+			</div>
+		#end
+		
+		
+	<img id="endpng" class="endpng" src="http://how2j.cn/tmall/img/site/end.png">
+
+</div>	
+</div>
+﻿<style>
+  span.how2jcopyrightspan1{
+    font-weight:bold;
+  }
+
+  span.how2jcopyrightspan1 a{
+    color:blue;
+  }
+
+  span.how2jcopyrightspan1 a:hover{
+    color:#C40000;
+  }
+
+  span.how2jcopyrightspan2{
+  	color:red;
+      
+  }
+  div.how2jcopyrightDiv{
+  	width:500px;
+    margin:0px auto;
+    text-align:center;
+  }
+</style>
+#parse("footer.vm")

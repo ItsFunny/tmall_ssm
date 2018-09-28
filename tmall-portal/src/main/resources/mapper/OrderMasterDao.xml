@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.OrderMasterDao">
+	<update id="updateOrderMaster" parameterType="com.tmall.model.OrderMaster">
+		update order_master 
+		<set>
+			<if test="buyerName!=null">buyer_name=#{buyerName},</if>
+			<if test="buyerPhone!=null">buyer_phone=#{buyerPhone},</if>
+			<if test="buyerAddress!=null">buyer_address=#{buyerAddress},</if>
+			<if test="buyerPost!=null">buyer_post=#{buyerPost},</if>
+			<if test="buyerOpenid!=null">buyer_openid=#{buyerOpenid},</if>
+			<if test="orderAmount!=null">order_amount=#{orderAmount},</if>
+			<if test="orderStatus!=null">order_status=#{orderStatus},</if>
+			<if test="payDate!=null">pay_date=#{payDate},</if>
+			<if test="payStatus!=null">pay_status=#{payStatus}</if>
+		</set>
+		<where>order_id=#{orderId}</where>	
+	</update>
+</mapper>

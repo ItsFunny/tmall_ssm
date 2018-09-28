@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.ProductInfoDao">
+	<select id="update" parameterType="com.tmall.model.ProductInfo">
+		update product_info
+		<set>
+			<if test="productName!=null">product_name=#{productName},</if>
+			<if test="productSubTitle!=null">product_sub_title=#{productSubTitle},</if>
+			<if test="productPrice!=null">product_price=#{productPrice},</if>
+			<if test="productPromotePrice!=null">product_promote_price=#{productPromotePrice},</if>
+			<if test="productIntegral!=null">product_integral=#{productIntegral},</if>
+			<if test="productStock!=null">product_stock=#{productStock},</if>
+			<if test="productReviewsCount!=null">product_reviews_count=#{productReviewsCount},</if>
+			<if test="productTotalSelled!=null">product_total_selled=#{productTotalSelled},</if>
+			<if test="pictureId">picture_id=#{pictureId},</if>
+			<if test="productStatus!=null">product_status=#{productStatus},</if>
+			<if test="categoryType!=null">category_type=#{categoryType}</if>
+		</set>
+		<where>
+			product_id=#{productId}
+		</where>
+	</select>
+	<select id="findSomeProductsInIds" parameterType="java.lang.String"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select * from product_info where product_id in
+		<foreach collection="list" item="productId" index="index"
+			open="(" separator="," close=")">#{productId}</foreach>
+	</select>
+
+	<select id="findOne" parameterType="java.lang.String"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.product_id,a.product_name,a.product_sub_title,a.product_price,a.product_total_selled,a.product_promote_price,a.product_integral,a.product_stock,a.product_description,a.store_id,a.picture_id,b.picture_path
+		from product_info a,picture b where a.picture_id=b.picture_id and
+		a.product_id=#{productId};
+	</select>
+</mapper>
+
+
+

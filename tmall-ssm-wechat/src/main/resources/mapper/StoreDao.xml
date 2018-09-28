@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.wechat.dao.StoreDao">
+	
+	<insert id="addStore" useGeneratedKeys="true" keyProperty="storeId" parameterType="com.tmall.dto.SellerDTO">
+		insert into store (store_name) value (#{storeName})
+	</insert>
+</mapper>
+
+
+

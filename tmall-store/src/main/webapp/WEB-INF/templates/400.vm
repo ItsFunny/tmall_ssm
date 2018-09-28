@@ -1,0 +1,11 @@
+#parse("header.vm")
+<head>
+	<title></title>
+</head>
+
+<body>
+无权访问
+</body>
+
+
+</html>

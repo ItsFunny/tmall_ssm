@@ -1,0 +1,20 @@
+#parse("header.vm")
+
+
+#foreach($store in $storeList)
+	店铺名称:${store.storeName} 
+		<img style="margin-left:5px;margin-right:5px" height="200" weight="200"  src="${store.storePicturePath}" >
+		职位:
+		#if(${store.level}==0)
+			创始人
+		#elseif(${store.level}==1)
+			总经理
+		#elseif(${store.level}==2)
+			普通员工
+		#end
+		
+		<a href="/store/${store.storeId}/index"> 点击进入管理店铺</a>
+
+#end
+</body>
+</html>

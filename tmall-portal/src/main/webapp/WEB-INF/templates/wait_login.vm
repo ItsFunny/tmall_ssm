@@ -1,0 +1,40 @@
+#parse("header.vm")
+<head>
+	<title>登陆等待页面</title>
+</head>
+
+	
+#[[<script>
+$(function(){
+	
+	var index=$("#index").val();
+	var userId=$("#userId").val();
+	
+	c=setInterval(checkIndex,4000);
+	function checkIndex(){
+		$.get("/check-index.html?userId="+userId,function(data,status){
+			var obj = $.parseJSON(data);  
+			if(obj.code==200){
+				alert("登陆成功");
+				window.location.href="http://localhost:8093/index.html"			
+			}else if(obj.code==300){
+				var checkIndex=obj.data;
+				$("#index").val(checkIndex);	
+			}else if(obj.code==500){
+				alert(obj.msg);
+			}
+		});
+	}	
+})
+
+
+</script>]]# 
+<body>
+
+	
+欢迎来到登陆等待页面,您处于等待队列的第
+<input type="text" value="${index}" id="index">位
+<input type="hidden" value="${userId}" id="userId">
+<input type="hidden" value="${userDTO}" id="userDTO">
+</body>
+</html>

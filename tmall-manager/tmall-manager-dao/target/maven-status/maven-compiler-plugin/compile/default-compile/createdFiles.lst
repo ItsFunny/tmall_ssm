@@ -1,0 +1,17 @@
+com\tmall\dao\OrderMasterDao.class
+com\tmall\dao\PropertyDao.class
+com\tmall\dao\IBaseDao.class
+com\tmall\dao\OrderDetailDao.class
+com\tmall\dao\StoreDao.class
+com\tmall\dao\ReviewDao.class
+com\tmall\dao\TmallUserDao.class
+com\tmall\dao\UserDao.class
+com\tmall\dao\StorePictureDao.class
+com\tmall\dao\CategoryPictureDao.class
+com\tmall\dao\ProductInfoDao.class
+com\tmall\dao\PropertyValueDao.class
+com\tmall\dao\PictureDao.class
+com\tmall\dao\UserDaoTest.class
+com\tmall\dao\SellerInfoDao.class
+com\tmall\dao\ProductCategoryDao.class
+com\tmall\dao\StoreCategoryDao.class

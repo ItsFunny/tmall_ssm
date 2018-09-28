@@ -1,0 +1,46 @@
+#parse("header.vm")
+<head>
+	<title></title>
+</head>
+
+##	//window.clearInterval(c);
+##//c=setInterval(checkScan,5000);
+#[[<script>
+$(function() {
+
+	var sessionId=$("#sessionId").val();
+	alert(sessionId);
+	var redirect=$("#redirect").val();
+	
+	$("#ccc").click(function(){
+		checkScan();
+	});
+	c=setInterval(checkScan,5000);
+	function checkScan() { 
+	$.get("/seller/check-scan?sessionId="+sessionId,function(data,status){
+			if(data.code==200){
+				alert("扫码成功");
+				alert(redirect);
+				window.location=redirect;
+			}
+			if(data.code==111){
+				alert(data.data.openId)
+				window.location="http://joker.natapp1.cc/seller/register-as-seller?openid="+data.data.openId+"&error="+data.msg;
+			}else if(data.code==11){
+				//跳转到注册页面
+				alert(data.msg);
+				window.location="http://joker.natapp1.cc/seller/login";
+			}
+		});
+    }
+})
+</script>]]# 
+<body>
+		<img style="margin-left:10px;margin-right:0px"  src="${path}" >
+		<input type="hidden" name="sessionId" value="${sessionId}" id="sessionId">
+		<input type="hidden" name="redirect" value="${redirect}" id="redirect">
+		<input type="button" value="点击" id="ccc">
+</body>
+
+
+</html>

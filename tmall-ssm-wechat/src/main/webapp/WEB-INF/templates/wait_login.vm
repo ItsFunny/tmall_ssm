@@ -1,0 +1,42 @@
+#parse("header.vm")
+<head>
+	<title>登陆等待页面</title>
+</head>
+
+	
+#[[<script>
+$(function(){
+	
+	var index=$("#index").val();
+	var sessionId=$("#sessionId").val();
+	
+	c=setInterval(checkIndex,4000);
+	function checkIndex(){
+		$.get("/wechat/portal/check-index?sessionId="+sessionId,function(data,status){
+			var obj = $.parseJSON(data);  
+			if(obj.code==200){
+				window.clearInterval(c);
+				alert("登陆成功");
+				window.location.href="http://localhost:8093/index.html"			
+			}else if(obj.code==300){
+				var checkIndex=obj.data;
+				$("#index").val(checkIndex);	
+			}else if(obj.code==500){
+				window.clearInterval(c);
+				alert(obj.msg);
+				window.location.href="http://localhost:8093/index.html"
+			}
+		});
+	}	
+})
+
+
+</script>]]# 
+<body>
+
+	
+欢迎来到登陆等待页面,您处于等待队列的第
+<input type="text" value="${index}" id="index">位
+<input type="hidden" value="${sessionId}" id="sessionId">
+</body>
+</html>

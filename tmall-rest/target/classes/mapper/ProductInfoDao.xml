@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.ProductInfoDao">
+
+	<select id="findSomeProductsInIds" parameterType="java.lang.String"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select * from product_info where product_id in
+		<foreach collection="list" item="productId" index="index"
+			open="(" separator="," close=")">#{productId}</foreach>
+	</select>
+	<select id="findAll" resultType="com.tmall.vo.ProductInfoVO"
+		parameterType="java.lang.Integer">
+		select
+		a.product_id,a.product_name,a.product_sub_title,a.product_price,
+		a.product_promote_price,a.product_integral,a.product_stock,a.product_reviews_count,
+		a.product_total_selled,a.product_description,a.picture_id,a.product_status,a.category_type,
+		b.picture_id,b.product_id,b.picture_path as productPicturePath from
+		product_info a left join picture
+		b
+		on a.picture_id=b.picture_id
+		and
+		a.category_type in
+		<foreach collection="list" index="index" open="(" separator=","
+			close=")" item="categoryType">
+			#{categoryType}
+		</foreach>
+	</select>
+	<select id="findAllProductsByCategoryTypeAndStoreId"
+		parameterType="java.lang.Integer" resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.product_id,a.product_name,a.store_id,a.product_sub_title,a.product_description,a.product_price,a.product_total_selled,a.picture_id,a.product_promote_price,a.product_stock,b.picture_id,b.picture_path
+		as productPicturePath,c.category_id,c.category_name,c.category_type
+		from product_info a,picture b ,product_category c
+		where
+		a.picture_id=b.picture_id and a.category_type=#{categoryType} and
+		c.category_type=#{categoryType} and a.store_id=#{storeId}
+	</select>
+
+	<select id="findAllProductsByCategoryType" parameterType="java.lang.Integer"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.*,b.picture_id,b.picture_path
+		as
+		productPicturePath,c.category_id,c.category_name,c.category_type,d.store_id,d.store_name
+		from product_info a,picture b,product_category c,store d
+		where
+		a.picture_id=b.picture_id
+		and
+		a.category_type=#{categoryType}
+		and
+		c.category_type=a.category_type
+		and
+		a.store_id=d.store_id
+	</select>
+
+
+	<select id="findOne" parameterType="java.lang.String"
+		resultType="com.tmall.vo.ProductInfoVO">
+		select
+		a.product_id,a.product_status,a.product_name,a.product_sub_title,a.product_total_selled,
+		a.product_price,a.product_promote_price,a.product_integral,a.product_stock,a.product_description,a.store_id,a.picture_id,b.picture_path
+		from product_info a,picture b where a.picture_id=b.picture_id and
+		a.product_id=#{productId};
+	</select>
+</mapper>
+
+
+

@@ -1,0 +1,64 @@
+
+#parse("header.vm")
+ <div class="navitagorDiv">
+  <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+   <img style="margin-left:10px;margin-right:0px" class="pull-left" src="http://how2j.cn/tmall/img/site/tmallbuy.png" height="45px">
+    <a class="navbar-brand" href="/manager/index">天猫后台</a> 
+    <a class="navbar-brand" href="/manager/all-stores">店铺管理</a> 
+    <a class="navbar-brand" href="/manager/all-users">用户管理</a> 
+   </nav>
+  </div>
+    <script>
+    #**
+    $(function(){
+        $("#addForm").submit(function(){
+         if(checkEmpty("name","分类名称"))
+         {
+         }
+          return true; 
+          return false; 
+          }); 
+      }); **#
+  </script> 
+       <title>分类管理</title>
+        <div class="workingArea">
+         <h1 class="label label-info" >分类管理</h1> 
+         <br> <br>
+          <div class="listDataTableDiv">
+           <table class="table table-striped table-bordered table-hover table-condensed"> 
+           <thead>
+            <tr class="success">
+             <th>店铺id</th>
+             <th>店铺图片</th> 
+             <th>店铺名称</th> 
+             <th>创建日期</th> 
+             <th>创始人真实姓名</th> 
+             <th>创始人昵称</th>
+             <th>手机号码</th> 
+             <th>删除店铺</th>
+            </tr> 
+          </thead> 
+          <tbody>
+          #foreach ($store in $storeList) 
+          	<tr>
+          	  <td>${store.storeId}</td>
+          	  <td><img height="40px" src="${store.picturePath}"></td> 
+          	  <td>$!{store.storeName}</td> 
+          	  <td>$!{store.createDateStr}</td> 
+          	  <td>$!{store.realName}</td> 
+          	  <td>$!{store.username}</td> 
+          	  <td>$!{store.phoneNumber}</td>
+          	 <td><a deleteLink="true" href="/manager/store-delete/${store.storeId}?redirect=${redirect}">
+          	  <span class=" glyphicon glyphicon-trash"></span></a></td>
+          	 </tr>
+           #end
+          	</tbody> 
+          </table> 
+         </div>
+       	 #parse("page.vm")
+       </div> 
+      </div> 
+     </div> 
+     <div class="footer"> 
+     </div> 
+   #parse("footer.vm")

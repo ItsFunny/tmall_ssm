@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tmall.dao.SellerInfoDao">
+	<update id="updateSellerByStoreId" parameterType="java.lang.Integer">
+		update seller_info
+		<set>
+			status=#{status}
+		</set>
+		<where>store_id=#{storeId}</where>
+	</update>
+	<update id="updateOneSeller" parameterType="com.tmall.dto.SellerDTO">
+		update seller_info
+		<set>
+		<if test="realName!=null">real_name=#{realName},</if>
+		<if test="idCard!=null">id_card=#{idCard},</if>
+		<if test="phoneNumber!=null">phone_number=#{phoneNumber},</if>
+		<if test="username!=null">username=#{username},</if>
+		<if test="password!=null">password=#{password},</if>
+		<if test="storeId!=null">store_id=#{storeId},</if>
+		<if test="openid!=null">openid=#{openid},</if>
+		<if test="type!=null">type=#{type},</if>
+		<if test="status!=null">status=#{status}</if>
+		</set>
+		<where>
+			seller_id={sellerId}
+		</where>
+	</update>
+</mapper>
+
+

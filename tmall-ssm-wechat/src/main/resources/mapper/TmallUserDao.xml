@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
+<mapper namespace="com.tmall.wechat.dao.TmallUserDao">
+	<insert id="addNormalUser" keyProperty="storeId" parameterType="com.tmall.model.TmallUser">
+		insert into tmall_user
+		(
+		real_name,nick_name,password,
+		<if test="mailBox!=null">mail_box,</if>
+		ID_card,phone_number,openid,status
+		)
+		values
+		(#{realName},#{nickName},#{password},
+		<if test="mailBox!=null">#{mailBox},</if>
+		#{IDCard},#{phoneNumber},#{openid},#{status}
+		)
+	</insert>
+	<select id="">
+		select
+		a.user_id,a.real_name,a.nick_name,a.password,a.mail_box,a.ID_card,a.phone_number
+		,a.openid,a.status,b.store_id,b.level,b.user_id
+		where
+		a.nick_name=#{key} or a.mail_box=#{key} or
+		a.phone_number=#{key} and a.user_id=b.user_id
+	</select>
+
+
+</mapper>

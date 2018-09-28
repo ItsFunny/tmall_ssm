@@ -1,0 +1,6 @@
+#parse("header.vm")
+
+
+当前在线人数过多,您目前处于登陆队列第${position}位
+
+#parse("footer.vm")

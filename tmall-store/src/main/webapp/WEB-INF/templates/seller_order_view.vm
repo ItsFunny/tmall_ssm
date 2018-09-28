@@ -1,0 +1,265 @@
+#parse("header.vm")
+<script>
+function checkEmpty(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	return true;
+}
+function checkNumber(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	if(isNaN(value)){
+		alert(name+ "必须是数字");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	return true;
+}
+function checkInt(id, name){
+	var value = $("#"+id).val();
+	if(value.length==0){
+		alert(name+ "不能为空");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	if(parseInt(value)!=value){
+		alert(name+ "必须是整数");
+		$("#"+id)[0].focus();
+		return false;
+	}
+	return true;
+}
+
+
+$(function(){
+	$("a").click(function(){
+		var deleteLink = $(this).attr("deleteLink");
+		console.log(deleteLink);
+		if("true"==deleteLink){
+			var confirmDelete = confirm("确认要删除");
+			if(confirmDelete)
+				return true;
+			return false;
+		}
+	});
+})
+</script>	
+</head>
+<body>
+
+
+
+
+#parse("TopMenu.vm")
+
+<script>
+$(function(){
+	
+	$("#addForm").submit(function(){
+		if(checkEmpty("name","订单名称"))
+			return true;
+		return false;
+	});
+	$("button.orderPageCheckOrderItems").click(function(){
+		var oid = $(this).attr("oid");
+		$("tr.orderPageOrderItemTR[oid="+oid+"]").toggle();
+	});
+});
+
+</script>
+
+<title>订单管理</title>
+
+
+<div class="workingArea">
+	<h1 class="label label-info" >订单管理</h1>
+	<br>
+	<br>
+	
+	<div class="listDataTableDiv">
+		<table class="table table-striped table-bordered table-hover1  table-condensed">
+			<thead>
+				<tr class="success">
+					<th>ID</th>
+					<th>状态</th>
+					<th>总金额</th>
+					<th width="100px">商品数量</th>
+					<th width="100px">买家名称</th>
+					<th>创建时间</th>
+					##<th>支付时间</th>
+					##<th>发货时间</th>
+					<th>付款时间时间</th>
+					<th width="120px">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+				#foreach($order in $orderDTOList)
+					<tr>
+						<td>${order.orderId}</td>
+						#if(${order.payStatus}==1)
+						<td>已支付</td>
+						#elseif(${order.payStatus}==2)
+						<td>请求退款</td>
+						#elseif(${order.payStatus}==3)
+						<td>已退款</td>
+						#end
+						<td>￥${order.orderAmount}</td>
+						<td align="center">${order.totalCount}</td>
+						<td align="center">${order.buyerName}</td>
+						<td>${order.createDateStr}</td>
+						<td>$!{order.payDateStr}</td>
+						<td>
+							<button oid=${order.orderId} class="orderPageCheckOrderItems btn btn-primary btn-xs">查看详情</button>
+						</td>
+					</tr>
+					#foreach($orderDetail in ${order.orderDetailList})
+					<tr class="orderPageOrderItemTR"  oid=${order.orderId}>
+						<td colspan="10" align="center">
+							<div  class="orderPageOrderItem">
+								<table width="800px" align="center" class="orderPageOrderItemTable">
+										<tr>
+											#if(${orderDetail.orderStatus}==1)
+											<td>待付款</td>
+											#elseif(${orderDetail.orderStatus}==2)
+											<td>已取消</td>
+											#elseif(${orderDetail.orderStatus}==3)
+											<td colspan="10">等待商家发货</td>
+											#elseif(${orderDetail.orderStatus}==4)
+											<td>待收货</td>
+											#elseif(${orderDetail.orderStatus}==5)
+											<td>待评价</td>
+											#elseif(${orderDetail.orderStatus}==6)
+											<td>已完成</td>
+											#end
+											<td align="left">
+												<img width="40px" height="40px" src="${orderDetail.picturePath}">
+											</td>	
+											<td>
+												<a href="foreproduct?pid=257">
+													<span>${orderDetail.productName}</span>
+												</a>											
+											</td>
+											<td align="right">
+												<span class="text-muted">${orderDetail.productQuantity}个</span>												
+											</td>
+											<td align="right">
+												<span class="text-muted">购买时价格：￥${orderDetail.productPrice}</span>												
+											</td>
+											#if(${orderDetail.orderStatus}==2)
+											<td align="right">
+												<span class="text-muted">取消日期：${orderDetail.updateDateStr}</span>												
+											</td>
+											#elseif(${orderDetail.orderStatus}==4)
+											<td align="right">
+												<span class="text-muted">发货日期：${orderDetail.deliverDateStr}</span>												
+											</td>
+											#elseif(${orderDetail.orderStatus}==5)
+											<td align="right">
+												<span class="text-muted">发货日期：${orderDetail.deliverDateStr}</span>	
+												<span class="text-muted">收货日期：${orderDetail.receiptDateStr}</span>												
+											</td>
+											#end
+										<td>
+											#if(${orderDetail.orderStatus}==3)
+											<a href="/store/${storeId}/order-delivery-goods/${orderDetail.orderDetailId}?redirect=${redirect}&openid=${order.buyerOpenid}&orderId=${order.orderId}" oid=${order.orderId} class="orderPageCheckOrderItems btn btn-primary btn-xs">
+											立即发货</a>
+											#end
+										</td>
+									</tr>
+									
+								
+								</table>
+							</div>
+						
+						</td>
+					</tr>
+					#end
+				#end
+				
+			</tbody>
+		</table>
+	</div>
+	#parse("page.vm")
+		
+ 
+<script>
+$(function(){
+    $("ul.pagination li.disabled a").click(function(){
+        return false;
+    });
+});
+ 
+</script>
+ #**<nav>
+  <ul class="pagination">
+    <li class="disabled">
+      <a  href="?page.start=0" aria-label="Previous" >
+        <span aria-hidden="true">«</span>
+      </a>
+    </li>
+ 
+    <li class="disabled">
+      <a  href="?page.start=-5" aria-label="Previous" >
+        <span aria-hidden="true">‹</span>
+      </a>
+    </li>    
+            <li class="disabled">
+                <a 
+                href="?page.start=0"
+                class="current"
+                >1</a>
+            </li>
+            <li >
+                <a 
+                href="?page.start=5"
+                
+                >2</a>
+            </li>
+            <li >
+                <a 
+                href="?page.start=10"
+                
+                >3</a>
+            </li>
+        
+    
+     
+        
+            <li >
+                <a 
+                href="?page.start=15"
+                
+                >4</a>
+            </li>
+ 
+    <li >
+      <a href="?page.start=5" aria-label="Next">
+        <span aria-hidden="true">›</span>
+      </a>
+    </li>
+    <li >
+      <a href="?page.start=4470" aria-label="Next">
+        <span aria-hidden="true">»</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div>*#
+
+
+
+<div class="footer">
+</div>
+
+</body>
+</html>

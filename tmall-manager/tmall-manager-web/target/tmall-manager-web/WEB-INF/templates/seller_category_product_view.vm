@@ -1,0 +1,152 @@
+#parse("header.vm")
+<script>
+    $(function() {
+        $("#addForm").submit(function() {
+            if (!checkEmpty("name", "产品名称"))
+                return false;
+//          if (!checkEmpty("subTitle", "小标题"))
+//              return false;
+            if (!checkNumber("orignalPrice", "原价格"))
+                return false;
+            if (!checkNumber("promotePrice", "优惠价格"))
+                return false;
+            if (!checkInt("stock", "库存"))
+                return false;
+            return true;
+        });
+       #* $(".editHref").click(function(){
+        	var pid=$(this).attr("pid");
+        	alert(pid);
+        	var params=$(".formParams[pid="+pid+"]").val();
+        	alert(params);
+        	window.location.href="/manager/category/product/edit?"+params;
+        });**#
+        
+        
+        
+        
+    });
+</script>
+<body>
+  
+
+<div class="workingArea">
+ 	
+    <ol class="breadcrumb">
+      <li><a href="/manager/category/all">所有分类</a></li>
+      <li><a href="javascript:void(0)">${categoryName}</a></li>
+      <li class="active">产品管理</li>
+    </ol>
+ 
+    <div class="listDataTableDiv">
+        <table
+            class="table table-striped table-bordered table-hover  table-condensed">
+            <thead>
+                <tr class="success">
+                    <th>ID</th>
+                    <th>图片</th>
+                    <th>产品名称</th>
+                    <th>产品小标题</th>
+                    <th width="53px">原价格</th>
+                    <th width="80px">优惠价格</th>
+                    <th width="80px">库存数量</th>
+                    <th width="80px">图片管理</th>
+                    <th width="80px">设置属性</th>
+                    <th width="42px">编辑</th>
+                    <th width="42px">删除</th>
+                </tr>
+            </thead>
+            <tbody>
+               	#foreach ($product in ${productList})
+                    <tr class="formParams" pid=${product.productId}>
+                        <td>${product.productId}</td>
+                        <td>
+                            	<img width="40px" src="${product.productPicturePath}">
+                        </td>
+                        <td>${product.productName}</td>
+                        <td>${product.productSubTitle}</td>
+                        <td>${product.productPrice}</td>
+                        <td>${product.productPromotePrice}</td>
+                        <td>${product.productStock}</td>
+                        <td><a href="/manager/seller/category-product-picture-edit/${product.productId}?categoryName=${categoryName}&productName=${product.productName}"><span
+                                class="glyphicon glyphicon-picture"></span></a></td>
+                        <td><a href="/manager/category/product/property/${product.productId}?categoryName=${categoryName}&productName=${product.productName}"><span
+                                class="glyphicon glyphicon-th-list"></span></a></td>
+                         
+                        <td><a href="/manager/category/product/update?productId=${product.productId}&redirect=${redirect}&productSubTitle=${product.productSubTitle}&categoryName=${categoryName}&productPrice=${product.productPrice}&productPromotePrice=${product.productPromotePrice}&productName=${product.productName}&productStock=${product.productStock}" class="editHref" pid=${product.productId}><span
+                                class="glyphicon glyphicon-edit"></span></a></td>
+                         </td>
+                        <td><a deleteLink="true"
+                            href="/manager/category/product/edit-product-delete/${product.productId}?categoryType=${categoryType}&redirect=${redirect}" ><span
+                                class="glyphicon glyphicon-trash"></span></a></td>
+
+                    </tr>
+                 #end
+            </tbody>
+        </table>
+    </div>
+ #parse("page.vm")
+
+    <div class="panel panel-warning addDiv">
+        <div class="panel-heading">新增产品</div>
+        <div class="panel-body">
+            <form method="post" id="addForm" action="/manager/category/product/edit-product-add/" enctype="multipart/form-data">
+            	<input type="hidden" name="categoryType" value="${categoryType}">
+            	<input type="hidden" name="redirect" value="${redirect}">
+                <table class="addTable">
+                    <tr>
+                        <td>产品名称</td>
+                        <td><input id="name" name="productName" type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>产品小标题</td>
+                        <td><input id="subTitle" name="productSubTitle" type="text"
+                            class="form-control"></td>
+                    </tr>
+                    <tr>
+                    	<td>产品首页显示图片</td>
+                    	<td><input id="picture" name="picture" type="file" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>原价格</td>
+                        <td><input id="orignalPrice" value="99.98" name="productPrice" type="text"
+                            class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>优惠价格</td>
+                        <td><input id="promotePrice"  value="19.98" name="productPromotePrice" type="text"
+                            class="form-control"></td>
+                    </tr>
+                    <tr>
+                    	<td>天猫积分</td>
+                    	<td><input  value="0" name="productIntegral" type="text" class="form-control"></td>
+                    </tr>
+                    <tr>
+                        <td>库存</td>
+                        <td><input id="stock"  value="99" name="productStock" type="text"
+                            class="form-control"></td>
+                    </tr>
+                      <tr>
+                        <td>商品描述</td>
+                        <td><input id="productDescription"  value="商品描述,可不填" name="productDescription" type="text"
+                            class="form-control"></td>
+                    </tr>
+                     <tr>
+                        <td>天猫积分</td>
+                        <td><input id="productIntergral"  value="15" name="productIntergral" type="text"
+                            class="form-control"></td>
+                    </tr>
+                    <tr class="submitTR">
+                        <td colspan="2" align="center">
+                           	<input type="submit" class="btn btn-sucess" value="提交">
+                            
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+ 
+</div>
+#parse("footer.vm")
+
